@@ -8,6 +8,7 @@ body {
   color: #bac0dd;
   overflow-x: hidden;
 }
+
 #root {
   min-height: 100vh;
   display: flex;
@@ -16,10 +17,9 @@ body {
 h1 {
   font-size: 3.5rem;
 }
-@media screen and (max-width: 768px) {
-  h1 {
-    font-size: 3rem;
-  }
+
+p {
+  font-size: 1.4rem;
 }
 
 .unsupported-network {
@@ -82,14 +82,6 @@ h1 {
   width: 50%;
   gap: 1rem;
 }
-@media screen and (max-width: 768px) {
-  .member-page > div {
-    flex-direction: column;
-  }
-  .member-page > div > div {
-    width: 100%;
-  }
-}
 
 .member-page form {
   display: flex;
@@ -116,6 +108,14 @@ h1 {
 
 .member-page form small {
   text-align: center;
+}
+
+.member-page h1 {
+  margin: 0rem 0;
+}
+
+.member-page p {
+  margin: 0;
 }
 
 .card {
@@ -150,4 +150,19 @@ button:focus {
 button:disabled {
   opacity: 0.8;
   pointer-events: none;
+}
+
+@media screen and (max-width: 768px) {
+  .member-page > div {
+    flex-direction: column;
+  }
+  .member-page > div > div {
+    width: 100%;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  h1 {
+    font-size: 3rem;
+  }
 }
