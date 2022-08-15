@@ -1,11 +1,11 @@
 html,
 body {
   margin: 0;
-  font-family: Inter, sans-serif;
+  font-family: "Poppins", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: #7700ee;
-  color: #fff;
+  background-color: #292d3e;
+  color: #bac0dd;
   overflow-x: hidden;
 }
 #root {
@@ -14,7 +14,7 @@ body {
 }
 
 h1 {
-  font-size: 5rem;
+  font-size: 3.5rem;
 }
 @media screen and (max-width: 768px) {
   h1 {
@@ -55,6 +55,18 @@ h1 {
   align-content: center;
   display: flex;
   text-align: center;
+}
+
+.btn-hero {
+  background-color: #e5e8fb;
+  color: #292d3e;
+  font-weight: 500;
+  transition: 0.2s all;
+}
+
+.btn-hero:hover {
+  background-color: #161823;
+  color: #fff;
 }
 
 .member-page > div {
