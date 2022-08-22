@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react';
-import { useAddress, useEditionDrop, useMetamask } from '@thirdweb-dev/react';
+import { useEffect, useMemo, useState } from 'react';
+import { useAddress, useEditionDrop, useMetamask, useToken } from '@thirdweb-dev/react';
 
 const App = () => {
   const address = useAddress();
@@ -8,8 +8,67 @@ const App = () => {
 
   // Inicializa o contrato editionDrop
   const editionDrop = useEditionDrop("0x9cEDD47aBe6A856d30E6d9500D99d5E82a8A8131");
+  const token = useToken("0x7615632B9B4dd67EEcD0EC09E0Ad7a43B7Ec5CD8");
   const [hasClaimedNFT, setHasClaimedNFT] = useState(false);
   const [isClaiming, setIsClaiming] = useState(false);
+  const [memberTokenAmounts, setMemberTokenAmounts] = useState([]);
+  const [memberAddresses, setMemberAddresses] = useState([]);
+
+  const shortenAddress = (str) => {
+    return str.substring(0, 6) + "..." + str.substring(str.length - 4);
+  };
+
+  useEffect(() => {
+    if (!hasClaimedNFT) {
+      return;
+    }
+    
+    // Busca os usuários que tem nosso NFT com o tokenId 0
+    const getAllAddresses = async () => {
+      try {
+        const memberAddresses = await editionDrop.history.getAllClaimerAddresses(0);
+        setMemberAddresses(memberAddresses);
+        console.log("🚀 Endereços de membros", memberAddresses);
+      } catch (error) {
+        console.error("falha ao pegar lista de membros", error);
+      }  
+    };
+
+    getAllAddresses();
+  }, [hasClaimedNFT, editionDrop.history]);
+
+  // Esse useEffect busca a quantidade de tokens que cada membro possui
+  useEffect(() => {
+    if (!hasClaimedNFT) {
+      return;
+    }
+
+    // Busca todos os saldos
+    const getAllBalances = async () => {
+      try {
+        const amounts = await token.history.getAllHolderBalances();
+        setMemberTokenAmounts(amounts);
+        console.log("👜 Quantidades", amounts);
+      } catch (error) {
+        console.error("falha ao buscar o saldo dos membros", error);
+      }
+    };
+
+    getAllBalances();
+  }, [hasClaimedNFT, token.history]);
+
+  const memberList = useMemo(() => {
+    return memberAddresses.map((address) => {
+      // Se o endereço não está no memberTokenAmounts, isso significa que eles não
+      // detêm nada do nosso token.
+      const member = memberTokenAmounts?.find(({ holder }) => holder === address);
+  
+      return {
+        address,
+        tokenAmount: member?.balance.displayValue || "0",
+      }
+    });
+  }, [memberAddresses, memberTokenAmounts]);
 
   useEffect(() => {
     // Para se o usuário não tiver uma carteira conectada
@@ -68,6 +127,27 @@ const App = () => {
       <div className="member-page">
         <h1>🎩 Página dos membros da DAO</h1>
         <p>Parabéns por fazer parte do melhor clube de cartoleiros!</p>
+        <div>
+          <h2>Lista de Membros</h2>
+          <table className="card">
+            <thead>
+              <tr>
+                <th>Endereço</th>
+                <th>Quantidade de Tokens</th>
+              </tr>
+            </thead>
+            <tbody>
+              {memberList.map((member) => {
+                return (
+                  <tr key={member.address}>
+                    <td>{shortenAddress(member.address)}</td>
+                    <td>{member.tokenAmount}</td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
       </div>
     )
   };

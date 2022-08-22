@@ -46,15 +46,15 @@ p {
 .connect-wallet,
 .mint-nft,
 .member-page {
-  flex-direction: column;
+  margin: auto;
   width: 960px;
   max-width: calc(100% - 1rem);
+  display: flex;
+  flex-direction: column;
   padding-left: 0.5rem;
   padding-right: 0.5rem;
-  margin: auto;
-  align-content: center;
-  display: flex;
   text-align: center;
+  align-content: center;
 }
 
 .btn-hero {
@@ -71,11 +71,23 @@ p {
 
 .member-page > div {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   width: 100%;
   text-align: left;
-  gap: 2rem;
 }
+
+.member-page > div {
+  text-align: center;
+}
+
+.member-page > div > .card {
+  background-color: #bac0dd;
+  padding: 1rem;
+  border-radius: 1rem;
+  color: #000;
+  box-shadow: 3.1px 6.2px 6.2px hsl(0deg 0% 0% / 0.4);
+}
+
 .member-page > div > div {
   display: flex;
   flex-direction: column;
@@ -116,14 +128,6 @@ p {
 
 .member-page p {
   margin: 0;
-}
-
-.card {
-  background-color: #fff;
-  padding: 1rem;
-  border-radius: 1rem;
-  color: #000;
-  box-shadow: 3.1px 6.2px 6.2px hsl(0deg 0% 0% / 0.4);
 }
 
 button {

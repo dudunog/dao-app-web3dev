@@ -11,7 +11,7 @@ const token = sdk.getToken("0x7615632B9B4dd67EEcD0EC09E0Ad7a43B7Ec5CD8");
     // Pegue o endereço de todas as pessoas que possuem o nosso NFT de filiação, que tem
     // o tokenId 0.
     const walletAddresses = await editionDrop.history.getAllClaimerAddresses(0);
-  
+
     if (walletAddresses.length === 0) {
       console.log(
         "Ninguém mintou o NFT ainda, peça para alguns amigos fazerem isso e ganhar um NFT de graça!",
